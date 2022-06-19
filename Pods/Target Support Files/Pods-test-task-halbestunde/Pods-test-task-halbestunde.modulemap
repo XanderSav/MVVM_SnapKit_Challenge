@@ -1,0 +1,6 @@
+framework module Pods_test_task_halbestunde {
+  umbrella header "Pods-test-task-halbestunde-umbrella.h"
+
+  export *
+  module * { export * }
+}

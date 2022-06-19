@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0761EC60E2986F5429D61010 /* Pods_test_task_halbestunde.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08761C946B09AD06A4D2482A /* Pods_test_task_halbestunde.framework */; };
 		3665F4002835291D0074E683 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665F3FF2835291D0074E683 /* AppDelegate.swift */; };
 		3665F4022835291D0074E683 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665F4012835291D0074E683 /* SceneDelegate.swift */; };
 		3665F4042835291D0074E683 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665F4032835291D0074E683 /* MainViewController.swift */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		08761C946B09AD06A4D2482A /* Pods_test_task_halbestunde.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_test_task_halbestunde.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		15042667E13A45C1B0C5C8E7 /* Pods-test-task-halbestunde.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-task-halbestunde.release.xcconfig"; path = "Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde.release.xcconfig"; sourceTree = "<group>"; };
 		3665F3FC2835291D0074E683 /* test-task-halbestunde.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test-task-halbestunde.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3665F3FF2835291D0074E683 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3665F4012835291D0074E683 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 		367502562835583F0027D2A3 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 		36750258283576BF0027D2A3 /* PieceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceCell.swift; sourceTree = "<group>"; };
 		3675025A2836A8560027D2A3 /* PieceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceDetailsViewModel.swift; sourceTree = "<group>"; };
+		84B6F780BFF9A70E5EE19810 /* Pods-test-task-halbestunde.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-task-halbestunde.debug.xcconfig"; path = "Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0761EC60E2986F5429D61010 /* Pods_test_task_halbestunde.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +61,8 @@
 			children = (
 				3665F3FE2835291D0074E683 /* test-task-halbestunde */,
 				3665F3FD2835291D0074E683 /* Products */,
+				64AAC11E497EB17316BDF433 /* Pods */,
+				CB028F22D60BA9E548B1546A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -104,6 +111,24 @@
 			path = Piece;
 			sourceTree = "<group>";
 		};
+		64AAC11E497EB17316BDF433 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				84B6F780BFF9A70E5EE19810 /* Pods-test-task-halbestunde.debug.xcconfig */,
+				15042667E13A45C1B0C5C8E7 /* Pods-test-task-halbestunde.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CB028F22D60BA9E548B1546A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08761C946B09AD06A4D2482A /* Pods_test_task_halbestunde.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -111,9 +136,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3665F4102835291E0074E683 /* Build configuration list for PBXNativeTarget "test-task-halbestunde" */;
 			buildPhases = (
+				2E9DFFE001C31E06B63EEE41 /* [CP] Check Pods Manifest.lock */,
 				3665F3F82835291D0074E683 /* Sources */,
 				3665F3F92835291D0074E683 /* Frameworks */,
 				3665F3FA2835291D0074E683 /* Resources */,
+				E4737DE94EB0D422611A7C5A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -168,6 +195,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2E9DFFE001C31E06B63EEE41 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-test-task-halbestunde-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E4737DE94EB0D422611A7C5A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3665F3F82835291D0074E683 /* Sources */ = {
@@ -318,6 +387,7 @@
 		};
 		3665F4112835291E0074E683 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 84B6F780BFF9A70E5EE19810 /* Pods-test-task-halbestunde.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -347,6 +417,7 @@
 		};
 		3665F4122835291E0074E683 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15042667E13A45C1B0C5C8E7 /* Pods-test-task-halbestunde.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
