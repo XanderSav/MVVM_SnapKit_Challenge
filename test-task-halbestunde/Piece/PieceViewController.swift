@@ -30,12 +30,10 @@ class PieceViewController: UIViewController {
         
         mainView.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addConstraint(mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        view.addConstraint(mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        view.addConstraint(mainView.topAnchor.constraint(equalTo: view.topAnchor))
-        view.addConstraint(mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        mainView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
-        mainView.posterImageView.image = UIImage(named: viewModel.posterName)
         mainView.nameTextField.text = viewModel.name
         mainView.authorTextField.text = viewModel.author
         mainView.descriptionTextView.text = viewModel.description
@@ -46,6 +44,15 @@ class PieceViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setNavBar()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let navBarHeight = navigationController?.navigationBar.frame.size.height,
+           let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
+            mainView.update(topOffset: navBarHeight + statusBarHeight, bottomOffset: view.layoutMargins.bottom)
+        }
     }
     
     @objc private func saveAction() {
@@ -65,5 +72,6 @@ class PieceViewController: UIViewController {
         
         navigationController?.navigationBar.standardAppearance = navBarAppearance
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.tintColor = .white
     }
 }
