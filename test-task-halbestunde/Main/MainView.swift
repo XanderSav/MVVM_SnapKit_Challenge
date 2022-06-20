@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class MainView: UIView {
     
@@ -42,40 +43,43 @@ class MainView: UIView {
         return tableView
     }()
     
-    private var contentTopOffsetConstraint = NSLayoutConstraint()
-    private var contentBottomOffsetConstraint = NSLayoutConstraint()
-    
     init() {
         super.init(frame: .zero)
         
+        initView()
+        initConstraints()
+    }
+    
+    private func initView() {
         addSubview(buttonsStackView)
-        
-        contentTopOffsetConstraint = buttonsStackView.topAnchor.constraint(equalTo: topAnchor)
-        addConstraint(contentTopOffsetConstraint)
-        addConstraint(buttonsStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20))
-        addConstraint(buttonsStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20))
-        addConstraint(buttonsStackView.heightAnchor.constraint(equalToConstant: 100))
-        
         buttonsStackView.addArrangedSubview(newPieceView)
         buttonsStackView.addArrangedSubview(spacing)
         buttonsStackView.addArrangedSubview(randomPieceView)
-        
-        buttonsStackView.addConstraint(spacing.widthAnchor.constraint(equalToConstant: 10))
-        
         addSubview(piecesTableView)
-        
-        addConstraint(piecesTableView.topAnchor.constraint(equalTo: buttonsStackView.bottomAnchor, constant: -20))
-        addConstraint(piecesTableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20))
-        addConstraint(piecesTableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20))
-        addConstraint(piecesTableView.bottomAnchor.constraint(equalTo: bottomAnchor))
-        
-        layoutSubviewsClosure = { [weak self] in
-            guard let self = self else { return }
-            let width = self.buttonsStackView.frame.size.width
-            let widthButton = (width - self.spacing.frame.size.width) / 2
-            
-            self.buttonsStackView.addConstraint(self.newPieceView.widthAnchor.constraint(equalToConstant: widthButton))
-            self.buttonsStackView.addConstraint(self.randomPieceView.widthAnchor.constraint(equalToConstant: widthButton))
+    }
+    
+    private func initConstraints() {
+        buttonsStackView.snp.makeConstraints { make in
+            make.width.equalToSuperview().inset(Padding.insets)
+            make.height.equalTo(100)
+            make.centerX.equalToSuperview()
+        }
+        newPieceView.snp.makeConstraints {make in
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(spacing.snp.leading)
+        }
+        spacing.snp.makeConstraints {make in
+            make.width.equalTo(Padding.spacing)
+            make.centerX.equalToSuperview()
+            make.trailing.equalTo(randomPieceView.snp.leading)
+        }
+        randomPieceView.snp.makeConstraints {make in
+            make.trailing.equalToSuperview()
+        }
+        piecesTableView.snp.makeConstraints {make in
+            make.width.equalToSuperview().inset(Padding.insets)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(buttonsStackView.snp.bottom).offset(Padding.insets)
         }
     }
     
@@ -83,18 +87,13 @@ class MainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private var layoutSubviewsClosure: (() -> Void)?
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    func update(topOffset: CGFloat, bottomOffset: CGFloat) {
+        buttonsStackView.snp.makeConstraints {make in
+            make.top.equalToSuperview().offset(topOffset)
+        }
         
-        layoutSubviewsClosure?()
-    }
-    
-    func update(topOffset: CGFloat) {
-        let bottomOffset: CGFloat = 50
-        
-        contentTopOffsetConstraint.constant = topOffset
-        contentBottomOffsetConstraint.constant = bottomOffset
+        piecesTableView.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(bottomOffset)
+        }
     }
 }

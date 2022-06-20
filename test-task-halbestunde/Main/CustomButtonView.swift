@@ -6,27 +6,28 @@
 //
 
 import UIKit
+import SnapKit
 
 class CustomButtonView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .white
+        label.font = UIFont(name: "Inter-Medium", size: 14)
+        label.textColor = .black
         return label
     }()
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.tintColor = .white
         return imageView
     }()
     
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 2
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         return stackView
@@ -34,21 +35,36 @@ class CustomButtonView: UIView {
     
     init() {
         super.init(frame: .zero)
-    
-        backgroundColor = .black.withAlphaComponent(0.8)
         layer.cornerRadius = 6
+        backgroundColor = UIColor(named: "ItemBackgroundColor")
         
+        initView()
+        initConstraints()
+    }
+    
+    private func initView() {
         addSubview(contentStackView)
-        
-        addConstraint(contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 3))
-        addConstraint(contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -3))
-        addConstraint(contentStackView.centerYAnchor.constraint(equalTo: centerYAnchor))
         
         contentStackView.addArrangedSubview(iconImageView)
         contentStackView.addArrangedSubview(titleLabel)
+    }
     
-        contentStackView.addConstraint(iconImageView.widthAnchor.constraint(equalToConstant: 30))
-        contentStackView.addConstraint(iconImageView.heightAnchor.constraint(equalToConstant: 30))
+    private func initConstraints() {
+        contentStackView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.top.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Padding.insets)
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(iconImageView.snp.bottom)
+            make.bottom.equalToSuperview()
+        }
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(Padding.insets)
+            make.bottom.equalTo(titleLabel.snp.top)
+            make.width.equalTo(32)
+        }
     }
     
     required init?(coder: NSCoder) {

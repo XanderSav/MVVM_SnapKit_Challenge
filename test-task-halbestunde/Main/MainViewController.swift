@@ -31,11 +31,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(mainView)
         
         mainView.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addConstraint(mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor))
-        view.addConstraint(mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor))
-        view.addConstraint(mainView.topAnchor.constraint(equalTo: view.topAnchor))
-        view.addConstraint(mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor))
+        mainView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view.layoutMargins)
+        }
         
         mainView.piecesTableView.delegate = self
         mainView.piecesTableView.dataSource = self
@@ -53,7 +51,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if let navBarHeight = navigationController?.navigationBar.frame.size.height,
            let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
-            mainView.update(topOffset: navBarHeight + statusBarHeight)
+            mainView.update(topOffset: navBarHeight + statusBarHeight, bottomOffset: view.layoutMargins.bottom)
         }
     }
     
