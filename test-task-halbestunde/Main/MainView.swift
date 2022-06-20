@@ -89,7 +89,7 @@ class MainView: UIView {
     
     func update(topOffset: CGFloat, bottomOffset: CGFloat) {
         buttonsStackView.snp.makeConstraints {make in
-            make.top.equalToSuperview().offset(topOffset)
+            make.top.equalToSuperview().offset(topOffset + Padding.insets)
         }
         
         piecesTableView.snp.makeConstraints { make in

@@ -57,6 +57,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setNavBar()
+    }
+    
     @objc func addNewPieceAction() {
         
     }
@@ -65,6 +69,16 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         let piece = viewModel.randPiece()
         viewModel.pieces.append(piece)
         mainView.piecesTableView.reloadData()
+    }
+    
+    private func setNavBar() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navBarAppearance.backgroundColor = UIColor.init(named: "NavBarColor")
+        
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

@@ -44,11 +44,26 @@ class PieceViewController: UIViewController {
         navigationItem.rightBarButtonItem = saveButton
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setNavBar()
+    }
+    
     @objc private func saveAction() {
         guard let name = mainView.nameTextField.text else { return }
         guard let author = mainView.authorTextField.text else { return }
         guard let description = mainView.descriptionTextView.text else { return }
         
         viewModel.save(title: name, author: author, description: description)
+    }
+    
+    private func setNavBar() {
+        let navBarAppearance = UINavigationBarAppearance()
+        navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navBarAppearance.backgroundImage = UIImage.init(named: viewModel.posterName)
+        navBarAppearance.backgroundImageContentMode = .scaleToFill
+        
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
 }
