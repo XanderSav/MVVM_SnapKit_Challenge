@@ -109,7 +109,6 @@ class PieceCell: UITableViewCell {
         descriptionLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
         }
-        
     }
     
     required init?(coder: NSCoder) {

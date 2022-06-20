@@ -79,7 +79,7 @@ class MainView: UIView {
         piecesTableView.snp.makeConstraints {make in
             make.width.equalToSuperview().inset(Padding.insets)
             make.centerX.equalToSuperview()
-            make.top.equalTo(buttonsStackView.snp.bottom).offset(Padding.insets)
+            make.top.equalTo(buttonsStackView.snp.bottom)
         }
     }
     

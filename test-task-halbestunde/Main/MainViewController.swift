@@ -38,6 +38,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         mainView.piecesTableView.delegate = self
         mainView.piecesTableView.dataSource = self
         mainView.piecesTableView.register(PieceCell.self, forCellReuseIdentifier: "Cell")
+        mainView.piecesTableView.rowHeight  = UITableView.automaticDimension
+        mainView.piecesTableView.estimatedRowHeight = 80
         
         let newPieceTapRec = UITapGestureRecognizer(target: self, action: #selector(addNewPieceAction))
         mainView.newPieceView.addGestureRecognizer(newPieceTapRec)
@@ -65,30 +67,40 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         mainView.piecesTableView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.pieces.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let pieceVM = viewModel.pieces[indexPath.row]
+        let pieceVM = viewModel.pieces[indexPath.section]
        
         (cell as! PieceCell).configure(viewModel: pieceVM)
         
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let piece = viewModel.pieces[indexPath.row]
+        let piece = viewModel.pieces[indexPath.section]
         let viewModel = PieceViewModel(viewModel: piece) { [weak self] result in
-            self?.viewModel.pieces[indexPath.row] = result
+            self?.viewModel.pieces[indexPath.section] = result
             self?.mainView.piecesTableView.reloadData()
         }
         let viewController = PieceViewController(viewModel: viewModel)
         navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return Padding.spacing
     }
 }
