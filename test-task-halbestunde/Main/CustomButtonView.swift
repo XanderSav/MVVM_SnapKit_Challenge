@@ -63,7 +63,7 @@ class CustomButtonView: UIView {
         iconImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(Padding.insets)
             make.bottom.equalTo(titleLabel.snp.top)
-            make.width.equalTo(32)
+            make.width.equalTo(Padding.imageWidth)
         }
     }
     

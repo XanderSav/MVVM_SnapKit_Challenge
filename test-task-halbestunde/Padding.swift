@@ -11,4 +11,5 @@ import UIKit
 struct Padding {
     static let spacing: CGFloat = 10.0
     static let insets: CGFloat = 20.0
+    static let imageWidth: CGFloat = 32.0
 }

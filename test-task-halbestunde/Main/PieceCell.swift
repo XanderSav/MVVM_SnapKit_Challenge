@@ -11,24 +11,24 @@ class PieceCell: UITableViewCell {
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .bold)
-        label.textColor = .white
+        label.font = UIFont(name: "Inter-Medium", size: 14)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let authorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = .lightGray
+        label.font = UIFont(name: "Inter-Medium", size: 14)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        label.textColor = .gray
+        label.font = UIFont(name: "Inter-Medium", size: 14)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
@@ -36,7 +36,9 @@ class PieceCell: UITableViewCell {
     
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleToFill
+        imageView.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.fittingSizeLevel, for: .vertical)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -45,7 +47,7 @@ class PieceCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 3
+        stackView.spacing = 12
         return stackView
     }()
     
@@ -65,45 +67,49 @@ class PieceCell: UITableViewCell {
         return stackView
     }()
     
-    private let bgView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        view.layer.cornerRadius = 6
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     
-        contentView.addSubview(bgView)
-        
-        contentView.addConstraint(bgView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor))
-        contentView.addConstraint(bgView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor))
-        contentView.addConstraint(bgView.topAnchor.constraint(equalTo: contentView.topAnchor))
-        contentView.addConstraint(bgView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor))
-        
+        contentView.backgroundColor = UIColor(named: "ItemBackgroundColor")
+        contentView.layer.cornerRadius = 6
+
+        initView()
+        initConstraints()
+    }
+    
+    private func initView() {
         contentView.addSubview(contentStackView)
-        
-        contentView.addConstraint(contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12))
-        contentView.addConstraint(contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12))
-//        contentView.addConstraint(contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12))
-//        contentView.addConstraint(contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12))
-        
-        contentView.addConstraint(contentStackView.heightAnchor.constraint(equalToConstant: 280))
-        contentView.addConstraint(contentStackView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor))
-        
         contentStackView.addArrangedSubview(headerStackView)
         contentStackView.addArrangedSubview(descriptionLabel)
         
         headerStackView.addArrangedSubview(iconImageView)
         headerStackView.addArrangedSubview(pieceInfoStack)
         
-        iconImageView.addConstraint(iconImageView.heightAnchor.constraint(equalToConstant: 50))
-        iconImageView.addConstraint(iconImageView.widthAnchor.constraint(equalToConstant: 50))
-        
         pieceInfoStack.addArrangedSubview(nameLabel)
         pieceInfoStack.addArrangedSubview(authorLabel)
+    }
+    
+    private func initConstraints() {
+        contentStackView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(Padding.insets)
+        }
+        iconImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.width.equalTo(50)
+            make.height.equalTo(50)
+        }
+        pieceInfoStack.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+        }
+        headerStackView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+        }
+        descriptionLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
+        }
+        
     }
     
     required init?(coder: NSCoder) {
