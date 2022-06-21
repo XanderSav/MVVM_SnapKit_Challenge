@@ -9,6 +9,13 @@ import UIKit
 
 class PieceCell: UITableViewCell {
     
+    private let bgView: UIView = {
+        let bg = UIView()
+        bg.backgroundColor = UIColor(named: "ItemBackgroundColor")
+        bg.layer.cornerRadius = 6
+        return bg
+    }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Inter-Medium", size: 14)
@@ -69,16 +76,16 @@ class PieceCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-    
-        contentView.backgroundColor = UIColor(named: "ItemBackgroundColor")
-        contentView.layer.cornerRadius = 6
+        self.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
 
         initView()
         initConstraints()
     }
     
     private func initView() {
-        contentView.addSubview(contentStackView)
+        contentView.addSubview(bgView)
+        
+        bgView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(headerStackView)
         contentStackView.addArrangedSubview(descriptionLabel)
         
@@ -90,6 +97,10 @@ class PieceCell: UITableViewCell {
     }
     
     private func initConstraints() {
+        bgView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(Padding.insets)
+        }
         contentStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(Padding.insets)
         }
@@ -115,7 +126,7 @@ class PieceCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(viewModel: PieceDetailsViewModel) {
+    func configure(viewModel: PieceModel) {
         nameLabel.text = viewModel.name
         authorLabel.text = viewModel.author
         descriptionLabel.text = viewModel.description

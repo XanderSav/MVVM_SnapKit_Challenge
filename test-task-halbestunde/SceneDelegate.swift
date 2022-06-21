@@ -23,7 +23,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = scene as? UIWindowScene
         window?.makeKeyAndVisible()
 
-        let viewModel = MainViewModel()
+        let localStorage = LocalDataStorage()
+        let viewModel = MainViewModel(storage: localStorage)
         let viewController = MainViewController(viewModel: viewModel)
         let navController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navController

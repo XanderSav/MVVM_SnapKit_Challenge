@@ -60,9 +60,9 @@ class MainView: UIView {
     
     private func initConstraints() {
         buttonsStackView.snp.makeConstraints { make in
-            make.width.equalToSuperview().inset(Padding.insets)
+            make.top.equalToSuperview().inset(Padding.insets)
             make.height.equalTo(100)
-            make.centerX.equalToSuperview()
+            make.width.centerX.equalToSuperview()
         }
         newPieceView.snp.makeConstraints {make in
             make.leading.equalToSuperview()
@@ -77,23 +77,12 @@ class MainView: UIView {
             make.trailing.equalToSuperview()
         }
         piecesTableView.snp.makeConstraints {make in
-            make.width.equalToSuperview().inset(Padding.insets)
-            make.centerX.equalToSuperview()
-            make.top.equalTo(buttonsStackView.snp.bottom)
+            make.width.bottom.centerX.equalToSuperview()
+            make.top.equalTo(buttonsStackView.snp.bottom).offset(Padding.insets)
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func update(topOffset: CGFloat, bottomOffset: CGFloat) {
-        buttonsStackView.snp.makeConstraints {make in
-            make.top.equalToSuperview().offset(topOffset + Padding.insets)
-        }
-        
-        piecesTableView.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(bottomOffset)
-        }
     }
 }

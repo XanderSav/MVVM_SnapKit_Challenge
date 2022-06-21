@@ -13,17 +13,17 @@ class PieceViewModel {
     let description: String
     let posterName: String
     
-    private let saveHandle: ((PieceDetailsViewModel) -> Void)
+    //private var saveHandle: ((PieceModel) -> Void)
     
-    init(viewModel: PieceDetailsViewModel, saveHandle: @escaping ((PieceDetailsViewModel) -> Void)) {
+    init(viewModel: PieceModel) {//, saveHandle: @escaping ((PieceModel) -> Void)) {
         name = viewModel.name
         author = viewModel.author
         description = viewModel.description
         posterName = viewModel.iconName
-        self.saveHandle = saveHandle
+        //self.saveHandle = saveHandle
     }
     
     func save(title: String, author: String, description: String) {
-        saveHandle(PieceDetailsViewModel(title: title, author: author, description: description, iconName: posterName))
+        //saveHandle(PieceModel(title: title, author: author, description: description, iconName: posterName))
     }
 }

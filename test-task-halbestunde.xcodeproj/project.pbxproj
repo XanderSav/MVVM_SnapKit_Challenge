@@ -20,8 +20,10 @@
 		3665F42528353E690074E683 /* PieceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3665F42428353E690074E683 /* PieceViewModel.swift */; };
 		367502572835583F0027D2A3 /* CustomButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367502562835583F0027D2A3 /* CustomButtonView.swift */; };
 		36750259283576BF0027D2A3 /* PieceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36750258283576BF0027D2A3 /* PieceCell.swift */; };
-		3675025B2836A8560027D2A3 /* PieceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3675025A2836A8560027D2A3 /* PieceDetailsViewModel.swift */; };
+		3675025B2836A8560027D2A3 /* PieceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3675025A2836A8560027D2A3 /* PieceModel.swift */; };
 		C03D5AC52860A5DA000DCE2A /* Padding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D5AC42860A5DA000DCE2A /* Padding.swift */; };
+		C03D5AC728624D71000DCE2A /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D5AC628624D71000DCE2A /* TableSection.swift */; };
+		C03D5AC928626785000DCE2A /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C03D5AC828626785000DCE2A /* DataStorage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,9 +43,11 @@
 		3665F42428353E690074E683 /* PieceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceViewModel.swift; sourceTree = "<group>"; };
 		367502562835583F0027D2A3 /* CustomButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtonView.swift; sourceTree = "<group>"; };
 		36750258283576BF0027D2A3 /* PieceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceCell.swift; sourceTree = "<group>"; };
-		3675025A2836A8560027D2A3 /* PieceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceDetailsViewModel.swift; sourceTree = "<group>"; };
+		3675025A2836A8560027D2A3 /* PieceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceModel.swift; sourceTree = "<group>"; };
 		84B6F780BFF9A70E5EE19810 /* Pods-test-task-halbestunde.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test-task-halbestunde.debug.xcconfig"; path = "Target Support Files/Pods-test-task-halbestunde/Pods-test-task-halbestunde.debug.xcconfig"; sourceTree = "<group>"; };
 		C03D5AC42860A5DA000DCE2A /* Padding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Padding.swift; sourceTree = "<group>"; };
+		C03D5AC628624D71000DCE2A /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
+		C03D5AC828626785000DCE2A /* DataStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +103,9 @@
 				3665F41628353D840074E683 /* MainView.swift */,
 				367502562835583F0027D2A3 /* CustomButtonView.swift */,
 				36750258283576BF0027D2A3 /* PieceCell.swift */,
-				3675025A2836A8560027D2A3 /* PieceDetailsViewModel.swift */,
+				3675025A2836A8560027D2A3 /* PieceModel.swift */,
+				C03D5AC628624D71000DCE2A /* TableSection.swift */,
+				C03D5AC828626785000DCE2A /* DataStorage.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -245,10 +251,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C03D5AC728624D71000DCE2A /* TableSection.swift in Sources */,
 				3665F4042835291D0074E683 /* MainViewController.swift in Sources */,
-				3675025B2836A8560027D2A3 /* PieceDetailsViewModel.swift in Sources */,
+				3675025B2836A8560027D2A3 /* PieceModel.swift in Sources */,
 				3665F4002835291D0074E683 /* AppDelegate.swift in Sources */,
 				36750259283576BF0027D2A3 /* PieceCell.swift in Sources */,
+				C03D5AC928626785000DCE2A /* DataStorage.swift in Sources */,
 				367502572835583F0027D2A3 /* CustomButtonView.swift in Sources */,
 				3665F42128353E540074E683 /* PieceViewController.swift in Sources */,
 				3665F4022835291D0074E683 /* SceneDelegate.swift in Sources */,

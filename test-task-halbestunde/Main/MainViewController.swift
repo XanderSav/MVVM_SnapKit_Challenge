@@ -6,16 +6,21 @@
 //
 
 import UIKit
+import RxSwift
+import RxDataSources
+import RxGesture
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainViewController: UIViewController {
 
     private let mainView = MainView()
     private var viewModel: MainViewModel
+    private let disposeBag = DisposeBag()
     
+    //MARK: - Init
     init(viewModel: MainViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        
+        self.bind()
         title = "List"
     }
     
@@ -23,11 +28,52 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .white
+    //MARK: - Lifecycle
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setNavBar()
+        setupView()
+    }
     
+    //MARK: - PrivateMethods
+    private func bind() {
+        mainView.randomPieceView.rx.tapGesture()
+            .when(.recognized)
+            .bind(to: viewModel.input.addRandomPiece)
+            .disposed(by: disposeBag)
+        
+        mainView.newPieceView.rx.tapGesture()
+            .when(.recognized)
+            .bind(to: viewModel.input.addNewPiece)
+            .disposed(by: disposeBag)
+        
+        mainView.piecesTableView.rx.modelSelected(PieceModel.self)
+            .subscribe(onNext: { [weak self] piece in
+                let vm = PieceViewModel(viewModel: piece)
+                let controller = PieceViewController(viewModel: vm)
+                self?.navigationController?.pushViewController(controller, animated: true)
+            }).disposed(by: disposeBag)
+        
+        mainView.piecesTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] row in
+                self?.mainView.piecesTableView.deselectRow(at: row, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.output.contentUnavailable
+            .subscribe { [weak self] _ in
+                self?.showUnavailablePopUp()
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.output.pieces
+            .map { [TableSection(items: $0)] }
+            .bind(to: mainView.piecesTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .white
         view.addSubview(mainView)
         
         mainView.translatesAutoresizingMaskIntoConstraints = false
@@ -35,40 +81,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             make.edges.equalTo(self.view.layoutMargins)
         }
         
-        mainView.piecesTableView.delegate = self
-        mainView.piecesTableView.dataSource = self
         mainView.piecesTableView.register(PieceCell.self, forCellReuseIdentifier: "Cell")
         mainView.piecesTableView.rowHeight  = UITableView.automaticDimension
         mainView.piecesTableView.estimatedRowHeight = 80
-        
-        let newPieceTapRec = UITapGestureRecognizer(target: self, action: #selector(addNewPieceAction))
-        mainView.newPieceView.addGestureRecognizer(newPieceTapRec)
-        
-        let randomPieceTapRec = UITapGestureRecognizer(target: self, action: #selector(addRandPiectAction))
-        mainView.randomPieceView.addGestureRecognizer(randomPieceTapRec)
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if let navBarHeight = navigationController?.navigationBar.frame.size.height,
-           let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
-            mainView.update(topOffset: navBarHeight + statusBarHeight, bottomOffset: view.layoutMargins.bottom)
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        setNavBar()
-    }
-    
-    @objc func addNewPieceAction() {
-        
-    }
-    
-    @objc private func addRandPiectAction() {
-        let piece = viewModel.randPiece()
-        viewModel.pieces.append(piece)
-        mainView.piecesTableView.reloadData()
     }
     
     private func setNavBar() {
@@ -81,40 +96,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return viewModel.pieces.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let pieceVM = viewModel.pieces[indexPath.section]
-       
-        (cell as! PieceCell).configure(viewModel: pieceVM)
+    private func showUnavailablePopUp() {
         
+    }
+    
+    //MARK: - TableView
+    private let dataSource = RxTableViewSectionedReloadDataSource<TableSection>(configureCell: {  (_, tableView, _, piece) -> UITableViewCell in
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! PieceCell
+        cell.selectionStyle = .none
+        cell.configure(viewModel: piece)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let piece = viewModel.pieces[indexPath.section]
-        let viewModel = PieceViewModel(viewModel: piece) { [weak self] result in
-            self?.viewModel.pieces[indexPath.section] = result
-            self?.mainView.piecesTableView.reloadData()
-        }
-        let viewController = PieceViewController(viewModel: viewModel)
-        navigationController?.pushViewController(viewController, animated: true)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        return headerView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return Padding.spacing
-    }
+    })
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PieceDetailsViewModel {
+class PieceModel {
     let name: String
     let author: String
     let description: String
