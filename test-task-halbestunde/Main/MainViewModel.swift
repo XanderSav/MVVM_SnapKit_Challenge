@@ -75,7 +75,7 @@ class MainViewModel {
         }) {
             list.accept(list.value + [piece])
         } else if list.value.count == buffer.count {
-            //ToDo: all available pieces already added
+            //ToDo: all available pieces already added notification
             return
         } else {
             addRandomPiece()
