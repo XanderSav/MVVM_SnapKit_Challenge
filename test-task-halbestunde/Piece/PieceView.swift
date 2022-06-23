@@ -60,17 +60,14 @@ class PieceView: UIView {
     }
     
     private func initConstraints() {
-        
+        contentStackView.snp.makeConstraints {make in
+            make.top.equalToSuperview().inset(Padding.insets)
+            make.trailing.leading.equalToSuperview().inset(Padding.insets)
+            make.bottom.equalToSuperview()
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func update(topOffset: CGFloat, bottomOffset: CGFloat) {
-        contentStackView.snp.makeConstraints {make in
-            make.top.equalToSuperview().offset(topOffset + Padding.insets)
-            make.trailing.leading.bottom.equalToSuperview().inset(Padding.insets)
-        }
     }
 }

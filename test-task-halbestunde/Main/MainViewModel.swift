@@ -25,19 +25,44 @@ class MainViewModel {
     let input = Input()
     let output = Output()
     
+    let saveDataSubject: PublishSubject<(String, PieceModel)>
+    
     init(storage: DataStorage) {
-        buffer = storage.getData()
+        buffer = []
         
-        input.addRandomPiece.asObservable().subscribe { [weak self] _ in
-            if let strongSelf = self {
-                strongSelf.addRandomPiece()
-            }
+        saveDataSubject = storage.updateListener
+        
+        input.addRandomPiece.asObservable().subscribe { [unowned self] _ in
+            self.addRandomPiece()
         }
         .disposed(by: disposeBag)
         
         input.addNewPiece.asObservable()
             .bind(to: output.contentUnavailable)
             .disposed(by: disposeBag)
+        
+        storage.observableData.bind(onNext: { [unowned self] data in
+            processUpdate(data)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func processUpdate(_ data: [PieceModel]) {
+        self.buffer = data
+        
+        var tmp = [PieceModel]()
+        let listRef = output.pieces.value
+        for item in listRef {
+            if data.contains(item) {
+                tmp.append(item)
+            } else {
+                if let i = data.firstIndex(where: ({ model in
+                    model.iconName == item.iconName
+                })){
+                    tmp.append(data[i])
+                }
+            }
+        }
+        output.pieces.accept(tmp)
     }
     
     private func addRandomPiece() {
@@ -49,6 +74,11 @@ class MainViewModel {
             item.name == piece.name
         }) {
             list.accept(list.value + [piece])
+        } else if list.value.count == buffer.count {
+            //ToDo: all available pieces already added
+            return
+        } else {
+            addRandomPiece()
         }
     }
 }

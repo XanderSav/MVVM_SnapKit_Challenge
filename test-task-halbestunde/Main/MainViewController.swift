@@ -31,8 +31,11 @@ class MainViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setNavBar()
         setupView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setNavBar()
     }
     
     //MARK: - PrivateMethods
@@ -48,21 +51,21 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
         
         mainView.piecesTableView.rx.modelSelected(PieceModel.self)
-            .subscribe(onNext: { [weak self] piece in
-                let vm = PieceViewModel(viewModel: piece)
+            .subscribe(onNext: { [unowned self] piece in
+                let vm = PieceViewModel(model: piece, saveSubject: self.viewModel.saveDataSubject)
                 let controller = PieceViewController(viewModel: vm)
-                self?.navigationController?.pushViewController(controller, animated: true)
+                self.navigationController?.pushViewController(controller, animated: true)
             }).disposed(by: disposeBag)
         
         mainView.piecesTableView.rx.itemSelected
-            .subscribe(onNext: { [weak self] row in
-                self?.mainView.piecesTableView.deselectRow(at: row, animated: true)
+            .subscribe(onNext: { [unowned self] row in
+                self.mainView.piecesTableView.deselectRow(at: row, animated: true)
             })
             .disposed(by: disposeBag)
         
         viewModel.output.contentUnavailable
-            .subscribe { [weak self] _ in
-                self?.showUnavailablePopUp()
+            .subscribe { [unowned self] _ in
+                self.showUnavailablePopUp()
             }
             .disposed(by: disposeBag)
         
@@ -97,7 +100,9 @@ class MainViewController: UIViewController {
     }
     
     private func showUnavailablePopUp() {
-        
+        let alert = UIAlertController(title: "", message: "The feature is temporarily unavailable", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+        self.present(alert, animated: true)
     }
     
     //MARK: - TableView

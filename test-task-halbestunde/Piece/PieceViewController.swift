@@ -6,15 +6,25 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PieceViewController: UIViewController {
     private let mainView = PieceView()
     private let viewModel: PieceViewModel
+    private let disposeBag = DisposeBag()
+    
+    private lazy var saveButton: UIBarButtonItem = {
+        let saveButton = UIBarButtonItem(systemItem: UIBarButtonItem.SystemItem.done)
+        saveButton.target = self
+        saveButton.isEnabled = false
+        return saveButton
+    }()
     
     init(viewModel: PieceViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        
+        self.bind()
     }
     
     required init?(coder: NSCoder) {
@@ -24,46 +34,79 @@ class PieceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        
-        view.addSubview(mainView)
-        
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        
-        mainView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
         mainView.nameTextField.text = viewModel.name
         mainView.authorTextField.text = viewModel.author
         mainView.descriptionTextView.text = viewModel.description
-        
-        let saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveAction))
-        navigationItem.rightBarButtonItem = saveButton
+        viewModel.input.name.accept(viewModel.name)
+        viewModel.input.author.accept(viewModel.author)
+    }
+    
+    //MARK: - Lifecycle
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         setNavBar()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    //MARK: - PrivateMethods
+    private func bind() {
+        mainView.nameTextField.rx
+            .text.orEmpty
+            .bind(to: viewModel.input.name)
+            .disposed(by: disposeBag)
         
-        if let navBarHeight = navigationController?.navigationBar.frame.size.height,
-           let statusBarHeight = view.window?.windowScene?.statusBarManager?.statusBarFrame.height {
-            mainView.update(topOffset: navBarHeight + statusBarHeight, bottomOffset: view.layoutMargins.bottom)
+        mainView.authorTextField.rx
+            .text.orEmpty
+            .bind(to: viewModel.input.author)
+            .disposed(by: disposeBag)
+        
+        mainView.descriptionTextView.rx
+            .text.orEmpty
+            .bind(to: viewModel.input.description)
+            .disposed(by: disposeBag)
+        
+        saveButton.rx.tap
+            .bind(to: viewModel.output.save)
+            .disposed(by: disposeBag)
+        
+        let nameChanged = mainView.nameTextField.rx
+            .controlEvent([.editingChanged])
+            .asObservable()
+        let authorChanged = mainView.authorTextField.rx
+            .controlEvent([.editingChanged])
+            .asObservable()
+        let descriptionChanged = mainView.descriptionTextView.rx
+            .didChange
+            .asObservable()
+        let anythingChanged = Observable
+            .of(nameChanged, authorChanged, descriptionChanged)
+            .merge()
+            .map { _ in return true }
+        
+        anythingChanged.bind(to: saveButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        viewModel.output.save.subscribe(onNext: ({
+            self.navigationController?.popToRootViewController(animated: true)
+        })).disposed(by: disposeBag)
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .white
+        view.addSubview(mainView)
+        
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.snp.makeConstraints { (make) in
+            make.edges.equalTo(self.view.layoutMargins)
         }
     }
     
-    @objc private func saveAction() {
-        guard let name = mainView.nameTextField.text else { return }
-        guard let author = mainView.authorTextField.text else { return }
-        guard let description = mainView.descriptionTextView.text else { return }
-        
-        viewModel.save(title: name, author: author, description: description)
-    }
-    
     private func setNavBar() {
+        navigationItem.rightBarButtonItem = saveButton
+        
         let navBarAppearance = UINavigationBarAppearance()
         navBarAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
         navBarAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
