@@ -83,6 +83,8 @@
 		3665F3FE2835291D0074E683 /* test-task-halbestunde */ = {
 			isa = PBXGroup;
 			children = (
+				C056F3492864E80300638F51 /* CustomViews */,
+				C056F3472864E7A700638F51 /* DAL */,
 				3665F41F28353E3E0074E683 /* Piece */,
 				3665F4132835310F0074E683 /* Main */,
 				3665F3FF2835291D0074E683 /* AppDelegate.swift */,
@@ -98,14 +100,10 @@
 		3665F4132835310F0074E683 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C056F3482864E7D200638F51 /* TableView */,
 				3665F4032835291D0074E683 /* MainViewController.swift */,
 				3665F4142835311F0074E683 /* MainViewModel.swift */,
 				3665F41628353D840074E683 /* MainView.swift */,
-				367502562835583F0027D2A3 /* CustomButtonView.swift */,
-				36750258283576BF0027D2A3 /* PieceCell.swift */,
-				3675025A2836A8560027D2A3 /* PieceModel.swift */,
-				C03D5AC628624D71000DCE2A /* TableSection.swift */,
-				C03D5AC828626785000DCE2A /* DataStorage.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -127,6 +125,32 @@
 				15042667E13A45C1B0C5C8E7 /* Pods-test-task-halbestunde.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		C056F3472864E7A700638F51 /* DAL */ = {
+			isa = PBXGroup;
+			children = (
+				3675025A2836A8560027D2A3 /* PieceModel.swift */,
+				C03D5AC828626785000DCE2A /* DataStorage.swift */,
+			);
+			path = DAL;
+			sourceTree = "<group>";
+		};
+		C056F3482864E7D200638F51 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				C03D5AC628624D71000DCE2A /* TableSection.swift */,
+				36750258283576BF0027D2A3 /* PieceCell.swift */,
+			);
+			path = TableView;
+			sourceTree = "<group>";
+		};
+		C056F3492864E80300638F51 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				367502562835583F0027D2A3 /* CustomButtonView.swift */,
+			);
+			path = CustomViews;
 			sourceTree = "<group>";
 		};
 		CB028F22D60BA9E548B1546A /* Frameworks */ = {
